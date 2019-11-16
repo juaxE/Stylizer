@@ -1,9 +1,19 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
   height: 40vmin;
+}
+
+.App__uploaders {
+  display: flex;
+}
+
+.App__uploader {
+
 }
 
 .App-header {
