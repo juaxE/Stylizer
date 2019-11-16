@@ -3,45 +3,34 @@ import 'react-dropzone-uploader/dist/styles.css'
 import Dropzone from 'react-dropzone-uploader'
 
 const MyUploader = (props) => {
- 
-    const toast = (innerHTML) => {
-        const el = document.getElementById('toast')
-        el.innerHTML = innerHTML
-        el.className = 'show'
-        setTimeout(() => { el.className = el.className.replace('show', '') }, 3000)
-    }
+
+    
 
     const getUploadParams = () => {
         return { url: props.upload }
     }
 
-    const handleChangeStatus = ({ meta, remove }, status) => {
-        if (status === 'headers_received') {
-            toast(`${meta.name} uploaded!`)
-            remove()
-        } else if (status === 'aborted') {
-            toast(`${meta.name}, upload failed...`)
-        }
-    }
+    const handleSubmit = (files, allFiles) => {
+        console.log(files.map(f => f.meta))
+        allFiles.forEach(f => f.remove())
+      }
 
     return (
-        <React.Fragment>
 
-            <Dropzone
-                getUploadParams={getUploadParams}
-                onChangeStatus={handleChangeStatus}
-                accept="image/*"
-                maxFiles={1}
-                multiple={false}
-                canCancel={false}
-                inputContent={props.text}
-                styles={{
-                    dropzone: { width: 200, height: 100 },
-                    dropzoneActive: { borderColor: 'green' },
-                }}
-            />
-            <div id="toast"></div>
-        </React.Fragment>
+        <Dropzone
+            getUploadParams={getUploadParams}
+            accept="image/*"
+            onSubmit={handleSubmit}
+            maxFiles={2}
+            inputContent="Drop 2 files"
+            inputWithFilesContent={files => `${2 - files.length} 
+            more`}
+            styles={{
+                dropzone: { width: 400, height: 200 },
+                dropzoneActive: { borderColor: 'green' },
+            }}
+            submitButtonDisabled={files => files.length < 2}
+        />
     )
 }
 

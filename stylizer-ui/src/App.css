@@ -10,6 +10,7 @@
 
 .App__uploaders {
   display: flex;
+  flex-direction:column;
 }
 
 .App__uploader {
@@ -18,8 +19,7 @@
 }
 
 .App__result {
-  height: auto;
-  width: auto;
+  margin-top: 25px;
 }
 
 .App-header {
