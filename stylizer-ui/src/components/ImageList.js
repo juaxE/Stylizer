@@ -1,6 +1,5 @@
 import React from "react";
 
-// Rendering individual images
 const Image = ({ image }) => {
   return (
     <div className="file-item">
@@ -9,10 +8,10 @@ const Image = ({ image }) => {
   );
 };
 
-// ImageList Component
+
 const ImageList = ({ images }) => {
   
-  // render each image by calling Image component
+
   const renderImage = (image, index) => {
     return (
       <Image
@@ -22,7 +21,6 @@ const ImageList = ({ images }) => {
     );
   };
 
-  // Return the list of files
   return <section className="file-list">{images.map(renderImage)}</section>;
 };
 

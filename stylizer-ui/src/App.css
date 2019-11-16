@@ -13,7 +13,13 @@
 }
 
 .App__uploader {
+  height: auto;
+  width: auto;
+}
 
+.App__result {
+  height: auto;
+  width: auto;
 }
 
 .App-header {

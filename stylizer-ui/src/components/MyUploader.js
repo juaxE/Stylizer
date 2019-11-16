@@ -3,7 +3,7 @@ import 'react-dropzone-uploader/dist/styles.css'
 import Dropzone from 'react-dropzone-uploader'
 
 const MyUploader = (props) => {
-    // specify upload params and url for your files
+ 
     const toast = (innerHTML) => {
         const el = document.getElementById('toast')
         el.innerHTML = innerHTML
