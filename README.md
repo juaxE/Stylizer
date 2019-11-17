@@ -2,7 +2,7 @@
 Put some clothes on!
 
 
-
+![Example](/Esimerkki2.png)
 
 
 
