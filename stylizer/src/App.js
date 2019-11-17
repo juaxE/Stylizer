@@ -69,6 +69,16 @@ export default class App extends React.Component {
     this.changeActiveIndex(this.state.activeIndex + 1);
   };
 
+
+  fileChange2 = e => {
+    e.preventDefault();
+
+    let fd = this.state.data
+    fd.append("target", e.target.files[0]);
+    this.sendReport(fd)
+  };
+
+
   selectImage = (e) => {
 
     console.log(e)
@@ -76,12 +86,21 @@ export default class App extends React.Component {
     let url = 'https://storage.googleapis.com/selko_public_resources/image' + e + '.jpg'
     let fd = this.state.data
     axios.get(url).then(response => {
-      console.log(response)
-      let image = response;
-      fd.append("target", image)
-      this.sendReport(fd)
+      let image = response.data;
+      fd.append("target", new File([new Blob([image], { type: 'image/jpg' })], "target.jpg"))
     })
+    this.sendReport(fd)
   }
+
+  base64EncodeUnicode = (str) =>  {
+    // First we escape the string using encodeURIComponent to get the UTF-8 encoding of the characters, 
+    // then we convert the percent encodings into raw bytes, and finally feed it to btoa() function.
+    let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+    });
+
+    return btoa(utf8Bytes);
+}
 
   sendReport = (data) => {
     console.log("Sending report...")
@@ -99,18 +118,12 @@ export default class App extends React.Component {
     }
 
     axios.post('http://35.204.221.49/v1/stylize', data, config).then(response => {
-      console.log(response)
-
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Your new style!',
-          imageUrl: e.target.result,
-          imageAlt: 'The uploaded picture'
-        })
-      }
-      reader.readAsDataURL(response)
+      console.log(response.data)
+      Swal.fire({
+        icon: 'success',
+        title: 'Your new style!',
+        imageAlt: 'The uploaded picture'
+      });
       this.changeActiveIndex(0);
     });
   }
@@ -139,7 +152,7 @@ export default class App extends React.Component {
   reportForm = () => {
     let loading = this.state.formLoading;
 
-    return (
+    /* return (
       <div>
         <Grid columns={2} columns='equal' style={{ height: '100%' }} centered padded="horizontally">
           <Grid.Row centered={true}>
@@ -160,6 +173,24 @@ export default class App extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+      </div>
+    ) */
+
+    return (
+      <div>
+        <Button
+          size="large"
+          content="Take a picture"
+          labelPosition="left"
+          icon="file image"
+          onClick={() => this.fileInputRef.current.click()}
+        />
+        <input
+          ref={this.fileInputRef}
+          type="file"
+          hidden
+          onChange={this.fileChange2}
+        />
       </div>
     )
   }
